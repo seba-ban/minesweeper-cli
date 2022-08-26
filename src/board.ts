@@ -19,6 +19,7 @@ export class Board {
   private ended = false;
   private selected = 0;
   private flags: Record<string, boolean> = {};
+  private previousPrint = "";
 
   constructor(
     private rows: number,
@@ -144,10 +145,17 @@ export class Board {
   }
 
   print() {
-    process.stdout.cursorTo(0, 0);
-    process.stdout.clearScreenDown();
     const table = this.constructTable();
-    process.stdout.write(table);
+    const rows = table.split("\n");
+    const old = this.previousPrint.split("\n");
+
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i] === old[i]) continue;
+      process.stdout.cursorTo(0, i);
+      process.stdout.write(rows[i]);
+    }
+
+    this.previousPrint = table;
   }
 
   selectCell(pos: Position, redraw = true) {

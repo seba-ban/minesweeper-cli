@@ -21,7 +21,7 @@ export class Selection extends Emittery<{
   init() {
     readline.emitKeypressEvents(process.stdin);
     if (process.stdin.isTTY) process.stdin.setRawMode(true);
-
+    
     process.stdin.on(
       "keypress",
       (str: string | undefined, key: readline.Key) => {
